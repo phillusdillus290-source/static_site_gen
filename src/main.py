@@ -1,12 +1,8 @@
 import os, shutil, sys
 
-from webpage_gen import generate_pages_recursive
+from webpage_gen import generate_pages_recursive, generate_page
 
 from textnode import TextNode, TextType
-
-basepath = "/"
-if sys.argv:
-    basepath = sys.argv
 
 def copier(base="./static", target="./public"):
     if os.path.exists(target):
@@ -21,7 +17,10 @@ def copier(base="./static", target="./public"):
             copier(item_path, os.path.join(target, item))
 
 def main():
+    basepath = "/"
+    if sys.argv:
+        basepath = sys.argv
     copier()
-    generate_pages_recursive(f"{basepath}/content", f"{basepath}/template.html", f"{basepath}/public")
+    generate_pages_recursive("./content", "./template.html", "./docs", basepath)
 
 main()

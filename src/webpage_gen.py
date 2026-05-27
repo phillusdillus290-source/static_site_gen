@@ -2,8 +2,6 @@ import os, shutil
 
 from to_blocks_conversions import markdown_to_htmlnode
 
-from main import basepath
-
 def extract_title(markdown):
     lines = markdown.split("\n")
     for line in lines:
@@ -11,7 +9,7 @@ def extract_title(markdown):
             return line
     raise Exception("no header")
     
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     from_file = open(from_path)
     template_file = open(template_path)
@@ -26,13 +24,13 @@ def generate_page(from_path, template_path, dest_path):
     template_file.close()
     dest_file.close()
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     content = os.listdir(dir_path_content)
     for branch in content:
         branch_path = os.path.join(dir_path_content, branch)
         dest_path = os.path.join(dest_dir_path, branch)
         if os.path.isfile(branch_path) and branch.endswith(".md"):
-            generate_page(branch_path, template_path, dest_path[:-3] + ".html")
+            generate_page(branch_path, template_path, dest_path[:-3] + ".html", basepath)
         else:
             os.mkdir(dest_path)
-            generate_pages_recursive(branch_path, template_path, dest_path)
+            generate_pages_recursive(branch_path, template_path, dest_path, basepath)
