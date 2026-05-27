@@ -2,6 +2,8 @@ import os, shutil
 
 from to_blocks_conversions import markdown_to_htmlnode
 
+from main import basepath
+
 def extract_title(markdown):
     lines = markdown.split("\n")
     for line in lines:
@@ -18,7 +20,7 @@ def generate_page(from_path, template_path, dest_path):
     template_content = template_file.read()
     from_html = markdown_to_htmlnode(from_content).to_html()
     title = extract_title(from_content)
-    new_content = template_content.replace("{{ Title }}", title).replace("{{ Content }}", from_html)
+    new_content = template_content.replace("{{ Title }}", title).replace("{{ Content }}", from_html).replace("href=\"/", f"href=\"{basepath}").replace("src=\"/", f"src=\"{basepath}")
     dest_file.write(new_content)
     from_file.close()
     template_file.close()
