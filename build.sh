@@ -1,1 +1,1 @@
-python3 src/main.py "/phillusdillus290-source/"
+python3 src/main.py "/static_site_gen/"
